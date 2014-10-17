@@ -6,14 +6,24 @@ document.addEventListener('DOMContentLoaded', function(){
   var $select = document.querySelector('select');
 
   $button.addEventListener('click', function(){
-    if ($select.value === 'randomStudent'){
+    var value = $select.value;
+    switch(value){
+      case 'randomStudent':
       var s = Math.floor((Math.random() * 10) + 1);
       student = students[s];
       var $target = document.querySelector('.target');
-      $target.value = '';
+      $target.innerHTML = "";
       var docFragment = createPTag();
       $target.appendChild(docFragment);
-    }
+      break;
+      case 'neighborPairing':
+      var neighbors = [];
+      for(var i = 0; i <= 2; i++){
+        var n = students.shift();
+        //neighbors.push('n');
+        alert('n');
+      }
+    };
   });
 });
 
