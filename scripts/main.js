@@ -11,17 +11,17 @@ document.addEventListener('DOMContentLoaded', function(){
       case 'randomStudent':
       var s = Math.floor((Math.random() * 10) + 1);
       student = students[s];
-      var $target = document.querySelector('.target');
-      $target.innerHTML = "";
-      var docFragment = createPTag();
-      $target.appendChild(docFragment);
       break;
       case 'neighborPairing':
       var neighbors = [];
       for(var i = 0; i <= 2; i++){
         var n = students.shift();
-        //neighbors.push('n');
-        alert('n');
+        neighbors.push(n);
+        var $target = document.querySelector('.target');
+        $target.innerHTML = "";
+        var docFragment = createPTag();
+        $target.appendChild(docFragment);
+        break;
       }
     };
   });
