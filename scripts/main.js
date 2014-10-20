@@ -19,24 +19,28 @@ document.addEventListener("DOMContentLoaded", function(){
     $ul.innerHTML = "";
 
     var groupCriteria = $form.querySelector("select").value;
-
-    if(groupCriteria === "randomStudent"){
+    switch(groupCriteria){
+      case "randomStudent":
       var studentNumber = getRandomInt(0, students.length);
       var studentName = students[studentNumber];
       addItemToList($ul, studentName);
-    } else if(groupCriteria === "neighborPairing") {
+      break;
+      case "neighborPairing":
       var studentsClone = students.slice(0);
       while( studentsClone.length > 0 ){
         var studentNames = studentsClone.splice(0, 2);
         addItemToList($ul, studentNames.join(" &amp; "));
       }
-    } else if(groupCriteria === "teamsOfThree"){
+      break;
+      case "teamsOfThree":
       var studentsClone = students.slice(0);
       while (studentsClone.length > 0){
         var studentNames = studentsClone.splice(0, 3);
         addItemToList($ul, studentNames.join(" &amp; "));
       }
-    }
+      break;
+      case "randomPairing":
 
-  });
-});
+    } //closing of switch statement
+  }); //closing of submit eventListener
+}); //closing of DOMContentLoaded eventListener
