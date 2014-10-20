@@ -76,8 +76,8 @@ document.addEventListener("DOMContentLoaded", function(){
       break;
       case "randomNPairing":
       var shuffledStudents = arrayShuffle(students);
-      var quantity = $numBox.value;
-      neighborGrouping(shuffledStudents, $numBox, $ul);
+      var $quantity = $numBox.value;
+      neighborGrouping(shuffledStudents, $quantity, $ul);
       break;
 
     } //closing of switch statement
