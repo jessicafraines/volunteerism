@@ -1,4 +1,14 @@
 
+function getJSON(url, cb){
+  var xhr = new XMLHttpRequest();
+  xhr.open('GET', url);
+  xhr.onload = function(){
+    cb(JSON.parse(xhr.responseText));
+  };
+  xhr.send();
+}
+
+
 function getRandomInt(min, max) {
   return Math.floor(Math.random() * (max - min)) + min;
 }
@@ -24,7 +34,7 @@ function arrayShuffle(array){
     temp = arrayClone[i];
     arrayClone[i] = arrayClone[rand];
     arrayClone[rand] = temp;
-    
+
   }
   return arrayClone;
 } 
@@ -39,7 +49,6 @@ function hide(element){
 
 document.addEventListener("DOMContentLoaded", function(){
   var $form = document.getElementById("generate-group");
-  var students = ['bob', 'joe', 'sally', 'dakota', 'brian', 'dave', 'jessica', 'pat', 'gary', 'janice'];
 
   var $select = $form.querySelector("select");
   var $numBox = $form.querySelector("input[type=number]");
@@ -54,32 +63,35 @@ document.addEventListener("DOMContentLoaded", function(){
 
   $form.addEventListener("submit", function(event){
     event.preventDefault();
-    var $ul = document.getElementById("results");
-    $ul.innerHTML = "";
 
-    var groupCriteria = $form.querySelector("select").value;
-    switch(groupCriteria){
-      case "randomStudent":
-      var studentNumber = getRandomInt(0, students.length);
-      var studentName = students[studentNumber];
-      addItemToList($ul, studentName);
-      break;
-      case "neighborPairing":
-      neighborGrouping(students, 2, $ul);
-      break;
-      case "teamsOfThree":
-      neighborGrouping(students, 3, $ul);
-      break;
-      case "randomPairing":
-      var shuffledStudents = arrayShuffle(students);
-      neighborGrouping(shuffledStudents, 2, $ul);
-      break;
-      case "randomNPairing":
-      var shuffledStudents = arrayShuffle(students);
-      var $quantity = $numBox.value;
-      neighborGrouping(shuffledStudents, $quantity, $ul);
-      break;
+    getJSON('https://volunteerism-sscotth.firebaseio.com/students.json', function(data){
+      var students = data;
+      var $ul = document.getElementById("results");
+      $ul.innerHTML = "";
 
-    } //closing of switch statement
+      var groupCriteria = $form.querySelector("select").value;
+      switch(groupCriteria){
+        case "randomStudent":
+          var studentNumber = getRandomInt(0, students.length);
+          var studentName = students[studentNumber];
+          addItemToList($ul, studentName);
+          break;
+        case "neighborPairing":
+          neighborGrouping(students, 2, $ul);
+          break;
+        case "teamsOfThree":
+          neighborGrouping(students, 3, $ul);
+          break;
+        case "randomPairing":
+          var shuffledStudents = arrayShuffle(students);
+          neighborGrouping(shuffledStudents, 2, $ul);
+          break;
+        case "randomNPairing":
+          var shuffledStudents = arrayShuffle(students);
+          var quantity = $numBox.value;
+          neighborGrouping(shuffledStudents, quantity, $ul);
+          break;
+      } //closing of switch statemen
+    });
   }); //closing of submit eventListener
 }); //closing of DOMContentLoaded eventListener
